@@ -1,6 +1,5 @@
 
-const Usuario = require('../models/usuario');
-const Role = require('../models/role');
+const {Usuario, Role, Area} = require('../models');
 
 const esRoleValido = async (rol = '') => {
     const existeRol = await Role.findOne({ rol });
@@ -34,11 +33,25 @@ const coleccionesPermitidas = (coleccion='', colecciones=[]) => {
     }
     return true;
 }
-
+const esAreaValidoId= async(id) => {
+    const existeArea = await Area.findById(id);
+    if (!existeArea) {
+       throw new Error(`El id ${id} no existe en la base de datos`);
+    }
+}
+const esNombreAreaValido = async(nombre='')=>{
+    const name = nombre.toUpperCase();
+    const existeArea = await Area.findOne({nombre:name});
+    if (existeArea) {
+        throw new Error(`El nombre:${name} ya existe en la base de datos`);
+    } 
+}
 module.exports = {
     esRoleValido,
     esUsuarioValido,
     esNombreUsuarioValido,
     esUsuarioValidoUser,
-    coleccionesPermitidas
+    coleccionesPermitidas,
+    esAreaValidoId,
+    esNombreAreaValido
 }

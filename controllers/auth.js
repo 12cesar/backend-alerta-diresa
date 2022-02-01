@@ -4,54 +4,50 @@ const bcryptjs = require("bcryptjs");
 const generarToken = require("../helpers/generar-jwt");
 
 const postLogin = async (req = request, res = response) => {
-    const { coleccion } = req.params;
-    let password;
-    let usuario;
-    let validarPassword;
-    let token;
-    switch (coleccion) {
-      case "usuario":
-        usuario = req.body.usuario;
-        password = req.body.password;
+      try {
+       const usuario = req.body.usuario;
+       const password = req.body.password;
         const user = await Usuario.findOne({ usuario });
         if (!user) {
-          return res.json({
-            ok: false,
+          return res.status(400).json({
             msg: "Usuario no existe, converse con el administrador",
-            user: null,
-            token: null,
           });
         }
         if (!user.estado) {
-          return res.json({
-            ok: false,
+          return res.status(400).json({
             msg: "Usuario bloqueado, converse con el administrador",
-            user: null,
-            token: null,
           });
         }
         validarPassword = bcryptjs.compareSync(password, user.password);
         if (!validarPassword) {
-          return res.json({
-            ok: false,
+          return res.status(400).json({
             msg: "Contraseña no valida",
-            user: null,
-            token: null,
           });
         }
-        token= await generarToken.generarJWT(user._id);
+        token = await generarToken.generarJWT(user._id);
         res.json({
           ok: true,
           msg: "Login correcto",
           user,
-          token
+          token,
         });
-        break;
-      default:
-        break;
-    }
-  };
-
-  module.exports = {
-      postLogin
+      } catch (error) {
+        res.status(500).json({
+          msg: "Hable con el administrador",
+        });
+      }
   }
+const getLogin =async (req=request, res=response)=>{
+  const token = await generarToken.generarJWT( req.usuarioToken._id );
+  res.json({
+      ok: true,
+      msg: "Validacion correcta",
+      usuario: req.usuarioToken,
+      token: token,
+  })
+}
+
+module.exports = {
+  postLogin,
+  getLogin
+};

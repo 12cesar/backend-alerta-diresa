@@ -4,9 +4,8 @@ const  socketIO  = require("socket.io");
 
 
 const alertaSocket = (cliente= Socket, io= socketIO.Server )=>{
-    cliente.on('agregar-alerta', (alerta={})=>{
-        console.log(alerta);
-        cliente.broadcast.emit('agregar-alerta',alerta);
+    cliente.on('agregar-alerta', ()=>{
+        cliente.broadcast.emit('agregar-alerta');
     })
 }
 
