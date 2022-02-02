@@ -27,14 +27,7 @@ const postAlerta = async (req = request, res = response) => {
     const data = req.body;
     const alerta = new Alerta(data);
     await alerta.save();
-    const alert = await Alerta.findById(alerta._id)
-                                .populate("area","nombre");
-    const datos = {
-      topic: "alerta",
-      titulo: alert.area.nombre,
-      mensaje: data.descripcion,
-    };
-    sendPushToTopic(datos);
+    
     res.json({
       ok: true,
       msg: "Alerta creada con exito, un personal se acercara a darle soporte",
