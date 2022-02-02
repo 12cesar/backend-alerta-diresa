@@ -27,11 +27,12 @@ const postAlerta = async (req = request, res = response) => {
     const data = req.body;
     const alerta = new Alerta(data);
     await alerta.save();
-    
+    const alert = await Alerta.findById(alerta._id)
+                                .populate("area","nombre");    
     res.json({
       ok: true,
       msg: "Alerta creada con exito, un personal se acercara a darle soporte",
-      alerta,
+      alert,
     });
   } catch (error) {
     console.log(error);
