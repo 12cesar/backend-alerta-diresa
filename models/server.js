@@ -6,6 +6,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const { conectarCliente } = require('../sockets/usuario-socket');
 const { alertaSocket } = require('../sockets/socket-alerta');
+const sequelize = require('../db/dbMysql');
 class Server{
     static _intance=Server;
     io=socketIO.Server;
@@ -17,7 +18,10 @@ class Server{
             usuario: '/api/usuario',
             uploads: '/api/uploads',
             area: '/api/area',
-            alerta: '/api/alerta'
+            alerta: '/api/alerta',
+            user:'/api/user',
+            post:'/api/post',
+            address: '/api/address'
         }
         //Connect to socket
         this.httpServer = new http.Server(this.app);
@@ -27,6 +31,7 @@ class Server{
                 credentials:true
             }
         })
+        this.mysqlDB();
         // Connect to database
         this.connectDB();
         //  listen Sockets
@@ -38,6 +43,14 @@ class Server{
     }
     static get instance(){
         return this._intance || (this._intance=new this());
+    }
+    async mysqlDB(){
+        try {
+            await sequelize.sync({force:true});
+            console.log('conectado mysql');
+        } catch (error) {
+            console.log(error);
+        }
     }
     async connectDB(){
         await dbConnection();
@@ -70,6 +83,9 @@ class Server{
         this.app.use(this.paths.usuario, require('../routes/usuarios'));
         this.app.use(this.paths.area, require('../routes/areas'));
         this.app.use(this.paths.alerta, require('../routes/alertas'));
+        this.app.use(this.paths.user, require('../routes/users'));
+        this.app.use(this.paths.post, require('../routes/post'));
+        this.app.use(this.paths.address, require('../routes/address'));
         this.app.use(this.paths.uploads, require('../routes/uploads'));
     }
     listen(){
