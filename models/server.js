@@ -14,14 +14,16 @@ class Server{
         this.app = express();
         this.port = process.env.PORT;
         this.paths = {
-            auth: '/api/auth',
+
+
+            /* auth: '/api/auth',
             usuario: '/api/usuario',
             uploads: '/api/uploads',
             area: '/api/area',
-            alerta: '/api/alerta',
-            user:'/api/user',
+            alerta: '/api/alerta', */
+            /* user:'/api/user',
             post:'/api/post',
-            address: '/api/address'
+            address: '/api/address' */
         }
         //Connect to socket
         this.httpServer = new http.Server(this.app);
@@ -32,8 +34,6 @@ class Server{
             }
         })
         this.mysqlDB();
-        // Connect to database
-        this.connectDB();
         //  listen Sockets
         this.listenSockets();
         // Middlewares
@@ -52,9 +52,9 @@ class Server{
             console.log(error);
         }
     }
-    async connectDB(){
+    /* async connectDB(){
         await dbConnection();
-    }
+    } */
     listenSockets(){
         console.log('Escuchando conexiones - sockets');
         this.io.on('connection', cliente=>{
@@ -79,14 +79,14 @@ class Server{
         
     }
     routes(){
-        this.app.use(this.paths.auth, require('../routes/auth'));
+       /*  this.app.use(this.paths.auth, require('../routes/auth'));
         this.app.use(this.paths.usuario, require('../routes/usuarios'));
         this.app.use(this.paths.area, require('../routes/areas'));
-        this.app.use(this.paths.alerta, require('../routes/alertas'));
-        this.app.use(this.paths.user, require('../routes/users'));
+        this.app.use(this.paths.alerta, require('../routes/alertas')); */
+        /* this.app.use(this.paths.user, require('../routes/users'));
         this.app.use(this.paths.post, require('../routes/post'));
-        this.app.use(this.paths.address, require('../routes/address'));
-        this.app.use(this.paths.uploads, require('../routes/uploads'));
+        this.app.use(this.paths.address, require('../routes/address')); */
+        /* this.app.use(this.paths.uploads, require('../routes/uploads')); */
     }
     listen(){
         this.httpServer.listen(this.port, ()=>{

@@ -10,9 +10,18 @@ User.init({
             notNull:{
                 msg:"El campo no puede ser nulo"
             },
-            isAlpha:{
-                args:true,
-                msg:"El nombre solo puede contener letras"
+            len:{
+                args:[3,255],
+                msg:"El nombre tiene que ser entre 3 y 254 caracteres"
+            }
+        }
+    },
+    lastname:{
+        type: DataTypes.STRING,
+        allowNull:false,
+        validate:{
+            notNull:{
+                msg:"El campo no puede ser nulo"
             },
             len:{
                 args:[3,255],
@@ -20,40 +29,35 @@ User.init({
             }
         }
     },
-    email:{
+    alias:{
         type: DataTypes.STRING,
+        allowNull:false,
         validate:{
-            isEmail:{
-                args:true,
-                msg:"El campo tiene que ser un correo valido"
+            notNull:{
+                msg:"El campo no puede ser nulo"
+            },
+            len:{
+                args:[3,255],
+                msg:"El nombre tiene que ser entre 3 y 254 caracteres"
             }
         }
     },
-    age:{
-        type:DataTypes.INTEGER,
+    password:{
+        type:DataTypes.STRING,
+        allowNull:false,
         validate:{
-            isInt:{
-                args:true,
-                msg:"La edad tiene que ser un numero"
+            notNull:{
+                msg:"El campo no puede ser nulo"
             },
-            min:{
-                args:1,
-                msg:"La edad tiene que ser mayot o igual a 1"
-            },
-            max:{
-                args:155,
-                msg:"La edad tiene que ser real"
-            },
-            esPar(value){
-                if (value%2) {
-                    throw new Error("La edad tiene que ser un numero par")
-                }
+            len:{
+                args:[3,255],
+                msg:"El nombre tiene que ser entre 3 y 254 caracteres"
             }
         }
     },
-    role:{
-        type:DataTypes.INTEGER,
-        defaultValue:0
+    active:{
+        type: DataTypes.TINYINT,
+        defaultValue:1
     }
 },{
     sequelize,

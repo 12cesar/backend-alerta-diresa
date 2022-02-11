@@ -1,15 +1,18 @@
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require('../db/dbMysql');
+
+class Area extends Model{}
 
 
-const {Schema, model}=require('mongoose');
-
-const AreaSchema = Schema({
-    nombre:{
-        type: String,
-        required: [true, 'El area es obligatorio']
+Area.init({
+    area:{
+        type: DataTypes.STRING
     }
+},{
+    sequelize,
+    modelName:'area'
 });
-AreaSchema.methods.toJSON = function(){
-    const {__v, ...area}= this.toObject();
-    return area;
-}
-module.exports = model('Area', AreaSchema) 
+
+
+
+module.exports = Area

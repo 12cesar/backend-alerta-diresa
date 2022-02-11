@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require("sequelize");
+/* const { Model, DataTypes } = require("sequelize");
 const sequelize = require('../db/dbMysql');
 const User = require("./user");
 
@@ -13,4 +13,4 @@ Address.init({
 User.hasOne(Address);
 Address.belongsTo(User);
 
-module.exports = Address
+module.exports = Address */

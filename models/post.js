@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require("sequelize");
+/* const { Model, DataTypes } = require("sequelize");
 const sequelize = require('../db/dbMysql');
 const User = require("./user");
 
@@ -20,4 +20,4 @@ Post.init({
 User.hasMany(Post);
 Post.belongsTo(User);
 
-module.exports = Post;
+module.exports = Post; */
