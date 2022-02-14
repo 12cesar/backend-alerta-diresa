@@ -1,6 +1,7 @@
 const {response, request} = require('express');
 const jwt = require('jsonwebtoken');
-const Usuario = require('../models/usuario');
+const User = require('../models/user');
+
 const validarJWT =async (req= request, res = response, next)=>{ 
     const token = req.header('x-token');
     if (!token) {
@@ -12,22 +13,22 @@ const validarJWT =async (req= request, res = response, next)=>{
     try {
         const {id} = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
 
-        // leer el usuario
+        // leer el user
 
-        const usuario = await Usuario.findOne({_id: id});
+        const user = await User.findByPk({id});
 
-        if (!usuario) {
+        if (!user) {
             return res.status(401).json({
-                msg: 'Token no valido - usuario no existe en BD'
+                msg: 'Token no valido - user no existe en BD'
             })
         }
         // Verificar si el uid tiene estado en tru
-        if (!usuario.estado) {
+        if (!user.estado) {
             return res.status(401).json({
-                msg: 'Token no valido - usuario con estado : false'
+                msg: 'Token no valido - user con estado : false'
             })
         }
-        req.usuarioToken = usuario;
+        req.userToken = user;
         next();
     } catch (error) {
         console.log(error);

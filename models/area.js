@@ -5,8 +5,12 @@ class Area extends Model{}
 
 
 Area.init({
-    area:{
+    title:{
         type: DataTypes.STRING
+    },
+    active:{
+        type: DataTypes.TINYINT,
+        defaultValue:1
     }
 },{
     sequelize,

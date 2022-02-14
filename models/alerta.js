@@ -4,9 +4,9 @@ const Area = require("./area");
 const User = require("./user");
 
 
-class Soporte extends Model{}
+class Alerta extends Model{}
 
-Soporte.init({
+Alerta.init({
     personal:{
         type: DataTypes.STRING
     },
@@ -19,16 +19,16 @@ Soporte.init({
     }
 },{
     sequelize,
-    modelName:'soporte'
+    modelName:'alerta'
 });
 
 //Conexion User
-User.hasMany(Soporte);
-Soporte.belongsTo(User);
+User.hasMany(Alerta);
+Alerta.belongsTo(User);
 // Conexion area
-Area.hasMany(Soporte);
-Soporte.belongsTo(Soporte);
+Area.hasMany(Alerta);
+Alerta.belongsTo(Area);
 
 
 
-module.exports = Soporte
+module.exports = Alerta

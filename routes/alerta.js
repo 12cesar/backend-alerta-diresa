@@ -1,14 +1,10 @@
 const { Router } = require("express");
 const { validarCampos } = require("../middlewares");
 const { check } = require("express-validator");
-const Soporte = require("../models/soporte");
+const Alerta = require("../models/alerta");
+const { getAlertas, postAlerta } = require("../controllers/alerta");
 const router = Router();
 
-router.get("/", async (req, res) => {
-  const soporte = await Soporte.findAll();
-  res.json({
-    ok: true,
-    soporte
-  });
-});
+router.get("/", getAlertas);
+router.post("/", postAlerta);
 module.exports = router;

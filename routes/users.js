@@ -1,15 +1,12 @@
 const { Router } = require("express");
-const User = require("../models/user");
+const { getUser, postUser, getUsers, putUser, deleteUser } = require("../controllers/user");
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  const user = await User.findAll();
-  res.json({
-    ok: true,
-    user
-  });
-});
-
+router.get("/", getUsers);
+router.get("/:id", getUser);
+router.post("/", postUser);
+router.put("/:id", putUser);
+router.delete("/:id/:active", deleteUser);
 
 module.exports = router;

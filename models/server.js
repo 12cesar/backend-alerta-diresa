@@ -15,15 +15,10 @@ class Server{
         this.port = process.env.PORT;
         this.paths = {
 
-
-            /* auth: '/api/auth',
-            usuario: '/api/usuario',
-            uploads: '/api/uploads',
-            area: '/api/area',
-            alerta: '/api/alerta', */
-            /* user:'/api/user',
-            post:'/api/post',
-            address: '/api/address' */
+            user:'/api/user',
+            rol:'/api/rol',
+            alerta:'/api/alerta',
+            area:'/api/area'
         }
         //Connect to socket
         this.httpServer = new http.Server(this.app);
@@ -34,6 +29,7 @@ class Server{
             }
         })
         this.mysqlDB();
+        //this.connectDB();
         //  listen Sockets
         this.listenSockets();
         // Middlewares
@@ -46,7 +42,7 @@ class Server{
     }
     async mysqlDB(){
         try {
-            await sequelize.sync({force:true});
+            await sequelize.authenticate();
             console.log('conectado mysql');
         } catch (error) {
             console.log(error);
@@ -79,14 +75,10 @@ class Server{
         
     }
     routes(){
-       /*  this.app.use(this.paths.auth, require('../routes/auth'));
-        this.app.use(this.paths.usuario, require('../routes/usuarios'));
+        this.app.use(this.paths.user, require('../routes/users'));
         this.app.use(this.paths.area, require('../routes/areas'));
-        this.app.use(this.paths.alerta, require('../routes/alertas')); */
-        /* this.app.use(this.paths.user, require('../routes/users'));
-        this.app.use(this.paths.post, require('../routes/post'));
-        this.app.use(this.paths.address, require('../routes/address')); */
-        /* this.app.use(this.paths.uploads, require('../routes/uploads')); */
+        this.app.use(this.paths.rol, require('../routes/rol'));
+        this.app.use(this.paths.alerta, require('../routes/alerta'));
     }
     listen(){
         this.httpServer.listen(this.port, ()=>{
