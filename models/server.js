@@ -14,11 +14,11 @@ class Server{
         this.app = express();
         this.port = process.env.PORT;
         this.paths = {
-
             user:'/api/user',
             rol:'/api/rol',
             alerta:'/api/alerta',
-            area:'/api/area'
+            area:'/api/area',
+            auth:'/api/auth'
         }
         //Connect to socket
         this.httpServer = new http.Server(this.app);
@@ -79,6 +79,7 @@ class Server{
         this.app.use(this.paths.area, require('../routes/areas'));
         this.app.use(this.paths.rol, require('../routes/rol'));
         this.app.use(this.paths.alerta, require('../routes/alerta'));
+        this.app.use(this.paths.auth, require('../routes/auth'));
     }
     listen(){
         this.httpServer.listen(this.port, ()=>{

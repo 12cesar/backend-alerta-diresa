@@ -15,7 +15,7 @@ const validarJWT =async (req= request, res = response, next)=>{
 
         // leer el user
 
-        const user = await User.findByPk({id});
+        const user = await User.findByPk(id);
 
         if (!user) {
             return res.status(401).json({
@@ -23,7 +23,7 @@ const validarJWT =async (req= request, res = response, next)=>{
             })
         }
         // Verificar si el uid tiene estado en tru
-        if (!user.estado) {
+        if (user.active === 0) {
             return res.status(401).json({
                 msg: 'Token no valido - user con estado : false'
             })
