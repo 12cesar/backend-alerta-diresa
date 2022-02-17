@@ -2,7 +2,8 @@ const { request, response } = require("express");
 const Alerta = require("../models/alerta");
 const Area = require("../models/area");
 const User = require("../models/user");
-
+const GenerateToken = require("../helpers/generar-googleJwt")
+const Notification = require("../helpers/notificacion")
 
 const getAlertas =async (req=request, res=response) => {
     const {estado} = req.query;
@@ -21,6 +22,12 @@ const getAlertas =async (req=request, res=response) => {
         status:Number(estado)
       }
     });
+    const data = {
+      topic:"alerta",
+      titulo: "Re:codigo",
+      mensaje: "Message from Nodejs to Topic test"
+    }
+    Notification.sendPushToTopic(data); 
     res.json({
       ok: true,
       alerta
