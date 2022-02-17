@@ -59,13 +59,17 @@ const postUser =async (req=request, res=response) => {
 const putUser= async (req=request, res=response) => {
   const {id} = req.params;
   const {nombre, apellido, usuario, password, rol} = req.body;
-  const user = await User.update({
-        name:nombre,
-        lastname:apellido,
-        alias:usuario,
-        password,
-        rolId:Number(rol)
-  },{
+  const data = {
+    name:nombre,
+    lastname:apellido,
+    alias:usuario,
+    rolId:Number(rol)
+  }
+  if (password) {
+    const salt = bcryptjs.genSaltSync();
+    data.password = bcryptjs.hashSync(password,salt);
+  }
+  const user = await User.update(data,{
     where:{
       id
     }

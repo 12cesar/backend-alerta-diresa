@@ -37,11 +37,10 @@ const getAlerta = async (req=request, res=response) => {
 }
 
 const postAlerta =async (req=request, res=response) => {
-    const {cliente, descripcion, area, usuario} = req.body;
+    const {cliente, descripcion, area} = req.body;
     const alerta = await Alerta.create({
         personal: cliente,
         descripcion,
-        userId: Number(usuario),
         areaId: Number(area)
     });
     res.json({
@@ -52,8 +51,10 @@ const postAlerta =async (req=request, res=response) => {
 
 const putAlerta = async (req=request, res=response) => {
   const {id} = req.params;
+  const user = req.userToken;
   const alerta = await Alerta.update({
-    status:1
+    status:1,
+    userId: Number(user.id)
   },{
     where:{
       id
