@@ -25,14 +25,14 @@ const getArea = async (req=request, res=response) => {
 
 
 const postArea = async (req=request, res=response) => {
-    const {titulo} = req.body;
-    const area = await Area.create({
-        title:mayusPrimeraLetra(titulo)
-    })
-    res.json({
-      ok: true,
-      area
-    });
+  const {titulo} = req.body;
+  const area = await Area.create({
+      title:mayusPrimeraLetra(titulo)
+  })
+  res.json({
+    ok: true,
+    area
+  });
 }
 
 const putArea = async (req=request, res=response) => {
