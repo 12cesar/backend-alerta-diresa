@@ -4,8 +4,7 @@ const Area = require("../models/area");
 const User = require("../models/user");
 const FCM = require("fcm-node");
 
-const SERVER_KEY =
-  "AAAAnp8WXU4:APA91bGCUSpv2t-luTw56kKjE1aiYLu9xU9c9Y88ChJX5tCDCxou4zCf4PiaFLV06YYToYoA40IHvOg_6DDFlzZZ3MBn06oTeF84okzQSIBHyeqIeEL7R2C_xwp9NJpZg00CcUWygLZc";
+const SERVER_KEY ="AAAAnp8WXU4:APA91bGCUSpv2t-luTw56kKjE1aiYLu9xU9c9Y88ChJX5tCDCxou4zCf4PiaFLV06YYToYoA40IHvOg_6DDFlzZZ3MBn06oTeF84okzQSIBHyeqIeEL7R2C_xwp9NJpZg00CcUWygLZc";
 const getAlertas = async (req = request, res = response, next) => {
   const { estado } = req.query;
   const alerta = await Alerta.findAll({
@@ -46,8 +45,9 @@ const postAlerta = async (req = request, res = response) => {
     descripcion,
     areaId: Number(area),
   });
-  const areas = await Area.findOne({where:{id:Number(area)}});
+  
   try {
+    const areas = await Area.findOne({where:{id:Number(area)}});
     const fcm = new FCM(SERVER_KEY);
     const message = {
       to: "/topics/" + "alerta",
@@ -63,13 +63,16 @@ const postAlerta = async (req = request, res = response) => {
         console.log(response);
       }
     });
-  } catch (error) {
-    next(error);
+    res.json({
+      ok: true,
+      alerta,
+    });
+    } catch (error) {
+    res.status(500).json({
+      msg: "Hable con el administrador",
+    });
   }
-  res.json({
-    ok: true,
-    alerta,
-  });
+  
 };
 
 const putAlerta = async (req = request, res = response) => {

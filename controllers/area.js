@@ -5,13 +5,19 @@ const Area = require("../models/area");
 
 const getAreas = async (req=request, res=response) => {
     const {active} = req.query;
-    const area = await Area.findAll({where:{
-      active:Number(active)
-    }});
-    res.json({
-      ok: true,
-      area
-    });
+    try {
+      const area = await Area.findAll({where:{
+        active:Number(active)
+      }});
+      res.json({
+        ok: true,
+        area
+      });
+    } catch (error) {
+      res.status(500).json({
+        msg: "Hable con el administrador",
+      });
+    }
 }
 
 const getArea = async (req=request, res=response) => {
