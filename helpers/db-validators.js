@@ -1,4 +1,5 @@
-const Area = require("../models/area")
+const Area = require("../models/area");
+const User = require("../models/user");
 const { mayusPrimeraLetra } = require("./fc-validators")
 
 
@@ -10,8 +11,19 @@ const areaTituloValido=async(titulo='')=>{
     throw new Error(`El titulo: ${titulo} ya está registrado en la BD`);
 }
 }
+const esUsuarioValido=async(usuario='')=>{
+    const user = await User.findOne({
+        where:{
+         alias:usuario   
+        }
+    });
+    if (user) {
+        throw new Error(`El usuario: ${usuario} ya está registrado en la BD`);
+    }
+}
 
 
 module.exports = {
-    areaTituloValido
+    areaTituloValido,
+    esUsuarioValido
 }
