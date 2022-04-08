@@ -1,32 +1,39 @@
 const { Model, DataTypes } = require("sequelize");
-const sequelize = require('../db/dbMysql');
+const sequelize = require("../db/dbMysql");
 const Area = require("./area");
 const User = require("./user");
 
+class Alerta extends Model {}
 
-class Alerta extends Model{}
+Alerta.init(
+  {
+    personal: {
+      type: DataTypes.STRING,
+    },
+    descripcion: {
+      type: DataTypes.STRING,
+    },
+    status: {
+      type: DataTypes.TINYINT,
+      defaultValue: 0,
+    },
+    fecha: {
+      type: DataTypes.CHAR,
+    },
+    hora: {
+      type: DataTypes.CHAR,
+    },
+    // If don't want createdAt
+    createdAt: false,
 
-Alerta.init({
-    personal:{
-        type: DataTypes.STRING
-    },
-    descripcion:{
-        type:DataTypes.STRING
-    },
-    status:{
-        type: DataTypes.TINYINT,
-        defaultValue:0
-    },
-    fecha:{
-        type:DataTypes.CHAR
-    },
-    hora:{
-        type:DataTypes.CHAR
-    }
-},{
+    // If don't want updatedAt
+    updatedAt: false,
+  },
+  {
     sequelize,
-    modelName:'alerta'
-});
+    modelName: "alerta",
+  }
+);
 
 //Conexion User
 User.hasMany(Alerta);
@@ -35,6 +42,4 @@ Alerta.belongsTo(User);
 Area.hasMany(Alerta);
 Alerta.belongsTo(Area);
 
-
-
-module.exports = Alerta
+module.exports = Alerta;
