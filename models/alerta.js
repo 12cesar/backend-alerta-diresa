@@ -16,6 +16,12 @@ Alerta.init({
     status:{
         type: DataTypes.TINYINT,
         defaultValue:0
+    },
+    fecha:{
+        type:DataTypes.CHAR
+    },
+    hora:{
+        type:DataTypes.CHAR
     }
 },{
     sequelize,

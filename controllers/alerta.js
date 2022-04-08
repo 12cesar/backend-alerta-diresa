@@ -40,13 +40,20 @@ const getAlerta = async (req = request, res = response) => {
 
 const postAlerta = async (req = request, res = response) => {
   const { cliente, descripcion, area } = req.body;
-  const alerta = await Alerta.create({
-    personal: cliente,
-    descripcion,
-    areaId: Number(area),
-  });
+  const date = new Date();
+  let output = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0')+ '-' + String(date.getDate()).padStart(2, '0');
+  const separ = String(date).split(' ');
+  const fecha = output;
+  
   
   try {
+    const alerta = await Alerta.create({
+      personal: cliente,
+      descripcion,
+      areaId: Number(area),
+      fecha,
+      hora:separ[4]
+    });
     const areas = await Area.findOne({where:{id:Number(area)}});
     const fcm = new FCM(SERVER_KEY);
     const message = {
