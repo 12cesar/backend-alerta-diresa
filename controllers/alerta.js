@@ -42,44 +42,17 @@ const getAlerta = async (req = request, res = response) => {
 const postAlerta = async (req = request, res = response) => {
   const { cliente, descripcion, area } = req.body;
   const date = new Date();
-  let output = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0')+ '-' + String(date.getDate()).padStart(2, '0');
+  const output = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0')+ '-' + String(date.getDate()).padStart(2, '0');
   const separ = String(date).split(' ');
   const fecha = output;
+  const hora = separ[4];
   
-  
-  try {
-    const alerta = await Alerta.create({
-      personal: cliente,
-      descripcion,
-      areaId: Number(area),
-      fecha,
-      hora:separ[4]
-    });
-    const areas = await Area.findOne({where:{id:Number(area)}});
-    const fcm = new FCM(SERVER_KEY);
-    const message = {
-      to: "/topics/" + "alerta",
-      notification: {
-        title: areas.title,
-        body: alerta.descripcion,
-      },
-    };
-    fcm.send(message, (err, response) => {
-      if (err) {
-        next(err);
-      } else {
-        console.log(response);
-      }
-    });
-    res.json({
-      ok: true,
-      alerta,
-    });
-    } catch (error) {
-    res.status(500).json({
-      msg: "Hable con el administrador",
-    });
-  }
+  res.json({
+    separ,
+    fecha,
+    output,
+    hora
+  })
   
 };
 
