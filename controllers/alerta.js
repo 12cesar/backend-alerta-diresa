@@ -8,7 +8,6 @@ const SERVER_KEY ="AAAAnp8WXU4:APA91bGCUSpv2t-luTw56kKjE1aiYLu9xU9c9Y88ChJX5tCDC
 const getAlertas = async (req = request, res = response, next) => {
   const { estado } = req.query;
   const alerta = await Alerta.findAll({
-    attributes:['id','personal','status','fecha','hora','descripcion'],
     include: [
       {
         model: User,
