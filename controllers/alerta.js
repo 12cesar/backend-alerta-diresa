@@ -46,13 +46,39 @@ const postAlerta = async (req = request, res = response) => {
   const separ = String(date).split(' ');
   const fecha = output;
   const hora = separ[4];
-  
-  res.json({
-    separ,
-    fecha,
-    output,
-    hora
-  })
+  try {
+    const alerta = await Alerta.create({
+      personal: cliente,
+      descripcion,
+      areaId: Number(area),
+      fecha,
+      hora
+    });
+    const areas = await Area.findOne({where:{id:Number(area)}});
+    const fcm = new FCM(SERVER_KEY);
+    const message = {
+      to: "/topics/" + "alerta",
+      notification: {
+        title: areas.title,
+        body: alerta.descripcion,
+      },
+    };
+    fcm.send(message, (err, response) => {
+      if (err) {
+        next(err);
+      } else {
+        console.log(response);
+      }
+    });
+    res.json({
+      ok: true,
+      alerta,
+    });
+    } catch (error) {
+    res.status(500).json({
+      msg: "Hable con el administrador",
+    });
+  }
   
 };
 
