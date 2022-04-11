@@ -25,7 +25,7 @@ const getAlertas = async (req = request, res = response, next) => {
 
   res.json({
     ok: true,
-    alerta,
+    alerta
   });
 };
 
@@ -44,7 +44,16 @@ const postAlerta = async (req = request, res = response) => {
   const output = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0')+ '-' + String(date.getDate()).padStart(2, '0');
   const separ = String(date).split(' ');
   const fecha = output;
-  const hora = separ[4];
+  const horaPe= separ[4].split(':');
+  const horaCon = Number(horaPe[0]);
+  let hora;
+  if (horaCon>=0 && horaCon<=4) {
+    const hour = (24+horaCon)-5;
+    hora= `${hour}:${horaPe[1]}:${horaPe[2]}`;
+  }else{
+    const hour = (horaCon-5);
+    hora= `${hour}:${horaPe[1]}:${horaPe[2]}`;
+  }
   try {
     const alerta = await Alerta.create({
       personal: cliente,
@@ -72,6 +81,7 @@ const postAlerta = async (req = request, res = response) => {
     res.json({
       ok: true,
       alerta,
+      hora:separ[4]
     });
     } catch (error) {
     res.status(500).json({
