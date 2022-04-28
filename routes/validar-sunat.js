@@ -5,7 +5,7 @@ const { postValidarSunat } = require("../controllers/validar-sunat");
 const router = Router();
 
 
-router.post('/:tipo',postValidarSunat);
+router.get('/:tipo/:documento',postValidarSunat);
 
 
 

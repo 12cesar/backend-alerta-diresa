@@ -3,8 +3,7 @@ const sunatApi = require("../apiAxios/apiDniRuc");
 
 const postValidarSunat = async (req = request, res = response) => {
   try {
-    const { tipo } = req.params;
-    const { documento: numero } = req.body;
+    const { tipo, documento:numero } = req.params;
     let nombreCompleto = "";
     let nombre="";
     let apellido="";
