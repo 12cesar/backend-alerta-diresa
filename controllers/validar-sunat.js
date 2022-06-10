@@ -12,7 +12,7 @@ const postValidarSunat = async (req = request, res = response) => {
     let data = {};
     switch (tipo) {
       case "1":
-        const resp = await sunatApi.get("/dni", {
+        const resp = await sunatApi.get("/v1/dni", {
           params: {
             numero,
           },
@@ -34,7 +34,7 @@ const postValidarSunat = async (req = request, res = response) => {
           data,
         });
       case "2":
-        const resp1 = await sunatApi.get("/ruc", {
+        const resp1 = await sunatApi.get("/v1/ruc", {
           params: {
             numero,
           },

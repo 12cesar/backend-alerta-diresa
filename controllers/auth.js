@@ -9,7 +9,7 @@ const postLogin = async (req = request, res = response) => {
     //Verficar si el usuario existe
     const user = await User.findOne({
       where: {
-        alias: usuario,
+        usuario
       },
     });
     if (!user) {

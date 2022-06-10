@@ -19,7 +19,9 @@ class Server{
             alerta:'/api/alerta',
             area:'/api/area',
             auth:'/api/auth',
-            validarsunat:'/api/validsunat/',
+            validarsunat:'/api/validsunat',
+            semanas:'/api/semanas',
+            soporte:'/api/soporte'
         }
         //Connect to socket
         this.httpServer = new http.Server(this.app);
@@ -82,6 +84,8 @@ class Server{
         this.app.use(this.paths.alerta, require('../routes/alerta'));
         this.app.use(this.paths.auth, require('../routes/auth'));
         this.app.use(this.paths.validarsunat, require('../routes/validar-sunat'));
+        this.app.use(this.paths.semanas, require('../routes/semanas'));
+        this.app.use(this.paths.soporte, require('../routes/soporte'));
     }
     listen(){
         this.httpServer.listen(this.port, ()=>{

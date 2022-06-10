@@ -33,7 +33,7 @@ const getArea = async (req=request, res=response) => {
 const postArea = async (req=request, res=response) => {
   const {titulo} = req.body;
   const area = await Area.create({
-      title:mayusPrimeraLetra(titulo)
+      title:titulo.toUpperCase()
   })
   res.json({
     ok: true,

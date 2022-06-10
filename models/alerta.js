@@ -1,7 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../db/dbMysql");
-const Area = require("./area");
-const User = require("./user");
+const Soporte = require("./soporte");
 
 class Alerta extends Model {}
 
@@ -11,7 +10,7 @@ Alerta.init(
       type: DataTypes.STRING,
     },
     descripcion: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     status: {
       type: DataTypes.TINYINT,
@@ -23,23 +22,30 @@ Alerta.init(
     hora: {
       type: DataTypes.CHAR,
     },
-    // If don't want createdAt
-    createdAt: false,
-
-    // If don't want updatedAt
-    updatedAt: false,
+    idUsuario:{
+      type: DataTypes.INTEGER
+    },
+    idArea:{
+      type:DataTypes.INTEGER
+    }
   },
   {
     sequelize,
     modelName: "alerta",
+    timestamps:false
   }
 );
 
-//Conexion User
-User.hasMany(Alerta);
-Alerta.belongsTo(User);
-// Conexion area
-Area.hasMany(Alerta);
-Alerta.belongsTo(Area);
+
+Alerta.hasMany(Soporte,{
+  as:'alertasoporte',
+  foreignKey:'idAlerta'
+});
+
+Soporte.belongsTo(Alerta,{
+  foreignKey:'idAlerta',
+  sourceKey:'id'
+})
+
 
 module.exports = Alerta;
