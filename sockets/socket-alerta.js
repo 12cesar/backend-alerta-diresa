@@ -10,7 +10,7 @@ const alertaSocket = (cliente= Socket, io= socketIO.Server )=>{
     cliente.on('actualizar-area',()=>{
         console.log('actualizado');
         cliente.broadcast.emit('actualizar-area');
-    })
+    });
 }
 
 module.exports = {

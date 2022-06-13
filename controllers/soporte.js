@@ -16,6 +16,19 @@ const postSoporte = async(req=request,res=response)=>{
     const {alerta,evaluacion, accion}= req.body;
     const {hora,fecha,ano,dia}= funDate();
     const {id} = req.userToken;
+    const ales = await Alerta.findOne({
+        where:{
+            id:alerta
+        }
+    });
+    if (ales.idUsuario !== id || ales.idUsuario === null) {
+        return res.status(400).json({
+            ok:true,
+            msg:'A usted no le corresponde este soporte',
+            soporte:null
+        });
+    }
+    
     let data = {};
     data.evaluacion=evaluacion;
     data.accion=accion;
