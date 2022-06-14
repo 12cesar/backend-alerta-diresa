@@ -7,11 +7,19 @@ const socketIO = require('socket.io');
 const { conectarCliente } = require('../sockets/usuario-socket');
 const { alertaSocket } = require('../sockets/socket-alerta');
 const sequelize = require('../db/dbMysql');
+const { request, response } = require('express');
 class Server{
     static _intance=Server;
     io=socketIO.Server;
     constructor(){
         this.app = express();
+        this.app.use((req=request, res=response, next) => {
+            res.header('Access-Control-Allow-Origin', 'http://192.168.100.95:5000');
+            res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, 	X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-	Method');
+            res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, 	DELETE');
+            res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+            next();
+        });
         this.port = process.env.PORT;
         this.paths = {
             user:'/api/user',

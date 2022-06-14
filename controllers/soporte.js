@@ -53,7 +53,8 @@ const postSoporte = async(req=request,res=response)=>{
     const alert = await Alerta.findOne({
         where:{
             status:0,
-            idUsuario:null
+            idUsuario:null,
+            fecha
         }
     });
     

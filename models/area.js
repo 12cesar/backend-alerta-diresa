@@ -15,8 +15,7 @@ Area.init({
     }
 },{
     sequelize,
-    modelName:'areas',
-    timestamps:false
+    modelName:'areas'
 });
 
 
