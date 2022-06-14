@@ -67,6 +67,16 @@ const postSoporte = async(req=request,res=response)=>{
                     id:alert.id
                 }
             });
+            const users = await User.update(
+                {
+                    atendiendo:1,
+                    tiempo:Number(user[0][0].tiempo)+1
+                },{
+                    where:{
+                        id:user[0][0].id
+                    }
+                }
+            )
         }else if (user[0].length === 0) {
             const aler = await Alerta.update({
                 idUsuario:null
