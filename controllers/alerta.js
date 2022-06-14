@@ -26,6 +26,9 @@ const getAtencion = async (req = request, res = response, next) => {
       where: {
         fecha,
       },
+      order:[
+        ['status','ASC']
+      ]
     });
     res.json({
       ok: true,
